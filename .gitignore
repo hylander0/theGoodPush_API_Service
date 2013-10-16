@@ -18,7 +18,6 @@ build/
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
 
-App_Data/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -47,6 +46,8 @@ App_Data/
 *.pidb
 *.log
 *.scc
+*.mdf
+*.ldf
 
 # Visual C++ cache files
 ipch/
