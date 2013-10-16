@@ -7,7 +7,7 @@ namespace theGoodPushService.Common
 {
     public class UrbanAirshipHelper
     {
-        private static string DEFAULT_DEVICE_TOKEN = "fb3e76aeffbea7e9ba3ee75f68ca16b5dcd688696b159a5270657a4c32dfd4da";
+        private static string DEFAULT_DEVICE_TOKEN = "YOUR DEFAULT DEVICE TOKEN HERE";
         private static string ALIAS = "john";
         public static void SendPush(int messageId, string name, int rating, int badgeNumber)
         {
