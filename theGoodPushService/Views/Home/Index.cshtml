@@ -1,0 +1,210 @@
+﻿<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <p class="site-title">
+                <a href="~/">ASP.NET Web API</a></p>
+        </div>
+    </div>
+</header>
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Welcome to the Good Push</h1>
+                <h2>To participate provide your name, rating of the discussion and a comment.</h2>
+            </hgroup>
+            <p>
+                This Website allows you to expose your browser to submit a push over the web .
+            </p>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <h1>Survey</h1>
+        <h3>Feel free to fill out this survey:</h3>
+            <table>
+                <tr>
+                    <td><label>Name:</label></td>
+                    <td><input id="txtName" value="" /></td>
+                </tr>
+                <tr>
+                    <td><label>Rating 
+                        <br />(5 being the best):</label></td>
+                    <td><select id="cbxRating">
+                        <option value="" selected>-SELECT-</option>
+                            <option valsue="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Comment:</label></td>
+                    <td><textarea id="txtComment" ></textarea></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td >
+                        <label id="lblError" style="color:red"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="btnSubmitSurvey"  type="button" value="Submit" />
+                    </td>
+                </tr>
+            </table>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <h1>Message Me.</h1>
+        <h3>Just send me a message</h3>
+            <table>
+                <tr>
+                    <td><label>Name:</label></td>
+                    <td><input id="txtNameMessage" value="" /></td>
+                </tr>
+               
+                <tr>
+                    <td><label>Comment:</label></td>
+                    <td><textarea id="txtMessageText" ></textarea></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td >
+                        <label id="lblMessageError" style="color:red"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="btnSubmitMessage"  type="button" value="Submit" />
+                    </td>
+                </tr>
+            </table>
+    </section>
+</div>
+@section scripts {
+<script type="text/javascript">
+    $(function () {
+        $("#btnSubmitSurvey").click(function (e) {
+            if (validate().length == 0) {
+                $(this).attr('disabled', 'disabled');
+                $(this).attr('value', 'Submitting...');
+                $("#lblError").html("");
+                submit();
+                
+            }
+            else
+                $("#lblError").html(validate());
+        });
+
+        $("#btnSubmitMessage").click(function (e) {
+            if (validateMsg().length == 0) {
+                $(this).attr('disabled', 'disabled');
+                $(this).attr('value', 'Submitting...');
+                $("#lblMessageError").html("");
+                submitMsg();
+
+            }
+            else
+                $("#lblMessageError").html(validateMsg());
+        });
+        var objToPostSurvey = {
+            s : {
+                Name: "",
+                Rating: 0,
+                Comment: ""
+
+            }
+        };
+        var objToPostMsg = {
+            msg: {
+                Name: "",
+                MessageText: ""
+
+            }
+        };
+        var validateMsg = function () {
+            if ($("#txtNameMessage").val().length == 0)
+                return "Name is required";
+            else
+                objToPostMsg.msg.Name = $("#txtNameMessage").val();
+            if ($("#txtMessageText").val().length == 0) 
+                return "Please include a message";
+            else
+                objToPostMsg.msg.MessageText = $("#txtMessageText").val();
+            return "";
+        };
+        var validate = function () {
+            if ($("#txtName").val().length == 0)
+                return "Name is required";
+            else
+                objToPostSurvey.s.Name = $("#txtName").val();
+            if ($("#cbxRating").val().length == 0)
+                return "Rating is required";
+            else
+                objToPostSurvey.s.Rating = $("#cbxRating").val();
+
+            objToPostSurvey.s.Comment = $("#txtComment").val();
+            return "";
+        };
+        var clearForm = function () {
+            $("#txtName").val("");
+            $("#cbxRating").val("");
+            $("#txtComment").val("");
+
+            $("#txtNameMessage").val("");
+            $("#txtMessageText").val("");
+
+
+        };
+        var submit = function () {
+            $.ajax({
+                url: "Home/SubmitAlert",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(objToPostSurvey),
+                success: function (data) {
+                    clearForm();
+                    alert("Thank you for your participation")
+                    $("#btnSubmitSurvey").removeAttr('disabled');
+                    $("#btnSubmitSurvey").attr('value', 'Submit');
+                },
+                error: function () {
+                    alert("Hum, something didn't go right.  Try submitting again.");
+                    $("#btnSubmitSurvey").removeAttr('disabled');
+                    $("#btnSubmitSurvey").attr('value', 'Submit');
+                }
+            });
+        };
+        var submitMsg = function () {
+            $.ajax({
+                url: "Home/SubmitMessage",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(objToPostMsg),
+                success: function (data) {
+                    clearForm();
+                    alert("Thank you for your participation")
+                    $("#btnSubmitMessage").removeAttr('disabled');
+                    $("#btnSubmitMessage").attr('value', 'Submit');
+                },
+                error: function () {
+                    alert("Hum, something didn't go right.  Try submitting again.");
+                    $("#btnSubmitMessage").removeAttr('disabled');
+                    $("#btnSubmitMessage").attr('value', 'Submit');
+                }
+            });
+        };
+
+        //validate
+        
+
+     
+    });
+
+</script>
+
+    }
