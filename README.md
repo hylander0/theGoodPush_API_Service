@@ -31,8 +31,6 @@ This project should run an IIS instance (opposed to the IISExpress).  This will 
 
 ## MIT License
 
-Copyright (c) 2012, 2013 Heapsource.com and Contributors - http://www.heapsource.com
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
